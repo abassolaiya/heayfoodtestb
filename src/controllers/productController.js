@@ -25,7 +25,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-
 exports.getProductsByStore = async (req, res) => {
   try {
     const products = await Product.find({ store: req.params.storeId });
