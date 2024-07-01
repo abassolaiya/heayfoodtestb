@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const storeRoutes = require("./src/routes/storeRoutes");
@@ -18,9 +19,11 @@ mongoose.connect(
 
 app.use(bodyParser.json());
 
+app.use(cors({}));
+
 app.use("/api/v1/stores", storeRoutes);
 app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/categories", categoryRoutes);
+app.use("/api/v1/category", categoryRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
