@@ -1,9 +1,24 @@
 const Store = require("../models/Store");
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
 
 exports.createStore = async (req, res) => {
   try {
-    const store = new Store(req.body);
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "stores",
+    });
+
+    const storeData = {
+      ...req.body,
+      image: result.secure_url,
+    };
+
+    const store = new Store(storeData);
     await store.save();
+
+    // Remove the file from the local upload directory
+    fs.unlinkSync(req.file.path);
+
     res.status(201).send(store);
   } catch (error) {
     res.status(400).send(error);

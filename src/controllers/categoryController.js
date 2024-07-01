@@ -1,9 +1,24 @@
 const Category = require("../models/Category");
+const cloudinary = require("../config/cloudinary");
+const fs = require("fs");
 
 exports.createCategory = async (req, res) => {
   try {
-    const category = new Category(req.body);
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "categories",
+    });
+
+    const categoryData = {
+      ...req.body,
+      image: result.secure_url,
+    };
+
+    const category = new Category(categoryData);
     await category.save();
+
+    // Remove the file from the local upload directory
+    fs.unlinkSync(req.file.path);
+
     res.status(201).send(category);
   } catch (error) {
     res.status(400).send(error);
