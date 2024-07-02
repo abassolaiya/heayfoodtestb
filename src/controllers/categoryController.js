@@ -16,7 +16,6 @@ exports.createCategory = async (req, res) => {
     const category = new Category(categoryData);
     await category.save();
 
-    // Remove the file from the local upload directory
     fs.unlinkSync(req.file.path);
 
     res.status(201).send(category);

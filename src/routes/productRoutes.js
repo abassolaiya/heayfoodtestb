@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post("/", upload.single("image"), productController.createProduct);
 router.get("/store/:storeId", productController.getProductsByStore);
+router.get("/search/:keywords", productController.searchStoresByProduct);
 
 module.exports = router;

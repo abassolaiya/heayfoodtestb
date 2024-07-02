@@ -10,4 +10,5 @@ router.get("/type/:type", storeController.getStoresByType);
 router.get("/city/:city", storeController.getStoresByCity);
 router.get("/category/:category", storeController.getStoresByCategory);
 
+router.get("/search/:keywords", storeController.searchStores);
 module.exports = router;

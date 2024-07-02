@@ -60,3 +60,25 @@ exports.getStoresByCategory = async (req, res) => {
     res.status(400).send(error);
   }
 };
+
+exports.searchStores = async (req, res) => {
+    try {
+      const keywords = req.params.keywords;
+      const regex = new RegExp(keywords, "i"); // Create a regex for case-insensitive search
+  
+      const stores = await Store.find({
+        $or: [
+          { name: regex },
+          { address: regex },
+          { city: regex },
+          { description: regex },
+          { storeType: regex },
+        ],
+      });
+  
+      res.status(200).send(stores);
+    } catch (error) {
+      res.status(400).send(error);
+    }
+  };
+  
